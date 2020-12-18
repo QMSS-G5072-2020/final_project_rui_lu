@@ -1,0 +1,9 @@
+README.md
+setup.py
+edamam_recipe/__init__.py
+edamam_recipe/edamam_recipe.py
+edamam_recipe.egg-info/PKG-INFO
+edamam_recipe.egg-info/SOURCES.txt
+edamam_recipe.egg-info/dependency_links.txt
+edamam_recipe.egg-info/requires.txt
+edamam_recipe.egg-info/top_level.txt

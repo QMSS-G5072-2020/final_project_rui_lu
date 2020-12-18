@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>edamam_recipe package &#8212; Edamam_Recipe  documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="edamam-recipe-package">
+<h1>edamam_recipe package<a class="headerlink" href="#edamam-recipe-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-edamam_recipe.edamam_recipe">
+<span id="edamam-recipe-edamam-recipe-module"></span><h2>edamam_recipe.edamam_recipe module<a class="headerlink" href="#module-edamam_recipe.edamam_recipe" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="edamam_recipe.edamam_recipe.find_recipe">
+<code class="sig-prename descclassname">edamam_recipe.edamam_recipe.</code><code class="sig-name descname">find_recipe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">app_key</span></em>, <em class="sig-param"><span class="n">app_id</span></em>, <em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">to</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">ingr</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edamam_recipe/edamam_recipe.html#find_recipe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#edamam_recipe.edamam_recipe.find_recipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Using this find_recipe function to provide the user with the dishes that can be made with their ingredient.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app_key</strong> (<em>a string to input your application key</em>) – </p></li>
+<li><p><strong>app_id</strong> (<em>a string to input your application id</em>) – </p></li>
+<li><p><strong>q</strong> (<em>a string to input your ingredient</em><em> or </em><em>a recipe name</em>) – </p></li>
+<li><p><strong>to</strong> (<em>an integer to input the last result index of the recipes</em><em> (</em><em>default to 10</em><em>)</em>) – </p></li>
+<li><p><strong>ingr</strong> (<em>an integer to input the maximum number of ingredients that you want in your recipe</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>A dataframe that contains the recipe name, its image, and the website that presents its detailed information.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">find_recipe</span> <span class="o">=</span> <span class="n">find_recipe</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="s1">&#39;chicken&#39;</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">ingr</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_recipe</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[&#39;Recipe Name&#39;, &#39;Image&#39;, &#39;Detailed Infomation&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="edamam_recipe.edamam_recipe.ingredient">
+<code class="sig-prename descclassname">edamam_recipe.edamam_recipe.</code><code class="sig-name descname">ingredient</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">app_key</span></em>, <em class="sig-param"><span class="n">app_id</span></em>, <em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">to</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">ingr</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edamam_recipe/edamam_recipe.html#ingredient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#edamam_recipe.edamam_recipe.ingredient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Using this ingredient function to provide the user with the ingredients they need to make a dish.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app_key</strong> (<em>a string to input your application key</em>) – </p></li>
+<li><p><strong>app_id</strong> (<em>a string to input your application id</em>) – </p></li>
+<li><p><strong>q</strong> (<em>a string to input your ingredient</em><em> or </em><em>a recipe name</em>) – </p></li>
+<li><p><strong>to</strong> (<em>an integer to input the last result index of the recipes</em><em> (</em><em>default to 10</em><em>)</em>) – </p></li>
+<li><p><strong>ingr</strong> (<em>an integer to input the maximum number of ingredients that you want in your recipe</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>A dataframe that contains the ingredients in text, their weights, and their images.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ingredient</span> <span class="o">=</span> <span class="n">ingredient</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="s1">&#39;chicken&#39;</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">ingr</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ingredient</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[&#39;text&#39;, &#39;weight&#39;, &#39;image&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="edamam_recipe.edamam_recipe.my_favourite">
+<code class="sig-prename descclassname">edamam_recipe.edamam_recipe.</code><code class="sig-name descname">my_favourite</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">app_key</span></em>, <em class="sig-param"><span class="n">app_id</span></em>, <em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">to</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">ingr</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">save</span><span class="o">=</span><span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edamam_recipe/edamam_recipe.html#my_favourite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#edamam_recipe.edamam_recipe.my_favourite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Using this my_favourite function to help the user to memorize which dishes they are interested in.
+Next time, when the user has the same ingredient, they can find what they have interest in before.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app_key</strong> (<em>a string to input your application key</em>) – </p></li>
+<li><p><strong>app_id</strong> (<em>a string to input your application id</em>) – </p></li>
+<li><p><strong>q</strong> (<em>a string to input your ingredient</em><em> or </em><em>a recipe name</em>) – </p></li>
+<li><p><strong>to</strong> (<em>an integer to input the last result index of the recipes</em><em> (</em><em>default to 10</em><em>)</em>) – </p></li>
+<li><p><strong>ingr</strong> (<em>an integer to input the maximum number of ingredients that you want in your recipe</em>) – </p></li>
+<li><p><strong>= a list to input the index of the recipe the user was interested in when they got use the find_recipe function</strong> (<em>save</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>A list that contains the recipe name that the user has interest in.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_favourite</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="s1">&#39;chicken&#39;</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">ingr</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">save</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="go">[&#39;Chicken Feet Stock&#39;, &#39;Persian Chicken&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="edamam_recipe.edamam_recipe.nutrient">
+<code class="sig-prename descclassname">edamam_recipe.edamam_recipe.</code><code class="sig-name descname">nutrient</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">app_key</span></em>, <em class="sig-param"><span class="n">app_id</span></em>, <em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">to</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">ingr</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edamam_recipe/edamam_recipe.html#nutrient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#edamam_recipe.edamam_recipe.nutrient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Using this nutrient function to provide the user with the detailed nutrients in the dish that they want to make.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app_key</strong> (<em>a string to input your application key</em>) – </p></li>
+<li><p><strong>app_id</strong> (<em>a string to input your application id</em>) – </p></li>
+<li><p><strong>q</strong> (<em>a string to input a recipe name</em>) – </p></li>
+<li><p><strong>to</strong> (<em>an integer to input the last result index of the recipes</em><em> (</em><em>default to 10</em><em>)</em>) – </p></li>
+<li><p><strong>ingr</strong> (<em>an integer to input the maximum number of ingredients that you want in your recipe</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>A dataframe that contains the category of the nutrient, its label, quantity and unit.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nutrient</span> <span class="o">=</span> <span class="n">nutrient</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="s1">&#39;Chicken Vesuvio&#39;</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">ingr</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nutrient</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[&#39;Category&#39;, &#39;Label&#39;, &#39;Quantity&#39;, &#39;Unit&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="edamam_recipe.edamam_recipe.obtain_recipe">
+<code class="sig-prename descclassname">edamam_recipe.edamam_recipe.</code><code class="sig-name descname">obtain_recipe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">app_key</span></em>, <em class="sig-param"><span class="n">app_id</span></em>, <em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">to</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">ingr</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edamam_recipe/edamam_recipe.html#obtain_recipe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#edamam_recipe.edamam_recipe.obtain_recipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Using this obtain_recipe function to collect data from EDAMAM API.
+EDAMAM API provides 1.7+million nutritionally analyzed recipes.
+Check the status of the request, and tell the user if there exists an error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app_key</strong> (<em>a string to input your application key</em>) – </p></li>
+<li><p><strong>app_id</strong> (<em>a string to input your application id</em>) – </p></li>
+<li><p><strong>q</strong> (<em>a string to input your ingredient</em><em> or </em><em>a recipe name</em>) – </p></li>
+<li><p><strong>to</strong> (<em>an integer to input the last result index of the recipes</em><em> (</em><em>default to 10</em><em>)</em>) – </p></li>
+<li><p><strong>ingr</strong> (<em>an integer to input the maximum number of ingredients that you want in your recipe</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>A json format of data collected from API</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obtain_recipe</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="s1">&#39;chicken&#39;</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">ingr</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">&lt;json&gt;</span>
+<span class="go">    It contains json format data, and the following is the first several rows of it.</span>
+<span class="go">{&#39;q&#39;: &#39;chicken&#39;,</span>
+<span class="go"> &#39;from&#39;: 0,</span>
+<span class="go"> &#39;to&#39;: 10,</span>
+<span class="go"> &#39;more&#39;: True,</span>
+<span class="go"> &#39;count&#39;: 54176,</span>
+<span class="go"> &#39;hits&#39;: [{&#39;recipe&#39;: {&#39;uri&#39;: &#39;http://www.edamam.com/ontologies/edamam.owl#recipe_b79327d05b8e5b838ad6cfd9576b30b6&#39;,</span>
+<span class="go"> ...}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="edamam_recipe.edamam_recipe.party">
+<code class="sig-prename descclassname">edamam_recipe.edamam_recipe.</code><code class="sig-name descname">party</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">app_key</span></em>, <em class="sig-param"><span class="n">app_id</span></em>, <em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">num_of_people</span></em>, <em class="sig-param"><span class="n">to</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">ingr</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edamam_recipe/edamam_recipe.html#party"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#edamam_recipe.edamam_recipe.party" title="Permalink to this definition">¶</a></dt>
+<dd><p>When the user is going to hold a part, and need the recipe that can provide enough food for the guests.
+This function can recommend the recipes that satisfy this need</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app_key</strong> (<em>a string to input your application key</em>) – </p></li>
+<li><p><strong>app_id</strong> (<em>a string to input your application id</em>) – </p></li>
+<li><p><strong>q</strong> (<em>a string to input your ingredient</em><em> or </em><em>a recipe name</em>) – </p></li>
+<li><p><strong>num_of_people</strong> (<em>an integer to input the number of people that will come to the party</em>) – </p></li>
+<li><p><strong>to</strong> (<em>an integer to input the last result index of the recipes</em><em> (</em><em>default to 10</em><em>)</em>) – </p></li>
+<li><p><strong>ingr</strong> (<em>an integer to input the maximum number of ingredients that you want in your recipe</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Returns a dataframe that contains the recipe name and its website address with detail information</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">party</span> <span class="o">=</span> <span class="n">party</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="s1">&#39;chicken&#39;</span><span class="p">,</span> <span class="n">num_of_people</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">ingr</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">party</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[&#39;Party Recipe&#39;, &#39;Detailed information&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="edamam_recipe.edamam_recipe.recipe_labels">
+<code class="sig-prename descclassname">edamam_recipe.edamam_recipe.</code><code class="sig-name descname">recipe_labels</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">app_key</span></em>, <em class="sig-param"><span class="n">app_id</span></em>, <em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">to</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">ingr</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">diet_label</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">health_label</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">caution</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edamam_recipe/edamam_recipe.html#recipe_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#edamam_recipe.edamam_recipe.recipe_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Using this recipe_labels function to provide the user with the label of recipe that they are interested in.
+The user can choose among the diet labe, the health label and the caution.
+If they don’t want to a certain label, they can input False to that parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app_key</strong> (<em>a string to input your application key</em>) – </p></li>
+<li><p><strong>app_id</strong> (<em>a string to input your application id</em>) – </p></li>
+<li><p><strong>q</strong> (<em>a string to input your recipe name</em>) – </p></li>
+<li><p><strong>to</strong> (<em>an integer to input the last result index of the recipes</em><em> (</em><em>default to 10</em><em>)</em>) – </p></li>
+<li><p><strong>ingr</strong> (<em>an integer to input the maximum number of ingredients that you want in your recipe</em>) – </p></li>
+<li><p><strong>diet_label</strong> (<em>a boolean to indicate whether the user wants to know this lable.</em>) – </p></li>
+<li><p><strong>health_label</strong> (<em>a boolean to indicate whether the user wants to know this lable.</em>) – </p></li>
+<li><p><strong>caution</strong> (<em>a boolean to indicate whether the user wants to know this lable.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>A list that contains the labels that the user want to know.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">recipe_labels</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="s1">&#39;Chicken Vesuvio&#39;</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">ingr</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">diet_label</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">health_label</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">caution</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="go">[&#39;Low-Carb&#39;, &#39;Peanut-Free&#39;, &#39;Tree-Nut-Free&#39;, &#39;Sulfites&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recipe_labels</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="s1">&#39;Chicken Vesuvio&#39;</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">ingr</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">diet_label</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">health_label</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">caution</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="go">[&#39;Peanut-Free&#39;, &#39;Tree-Nut-Free&#39;, &#39;Sulfites&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="edamam_recipe.edamam_recipe.recommend">
+<code class="sig-prename descclassname">edamam_recipe.edamam_recipe.</code><code class="sig-name descname">recommend</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">app_key</span></em>, <em class="sig-param"><span class="n">app_id</span></em>, <em class="sig-param"><span class="n">q</span></em>, <em class="sig-param"><span class="n">height</span></em>, <em class="sig-param"><span class="n">weight</span></em>, <em class="sig-param"><span class="n">to</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">ingr</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edamam_recipe/edamam_recipe.html#recommend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#edamam_recipe.edamam_recipe.recommend" title="Permalink to this definition">¶</a></dt>
+<dd><p>”
+When user has a problem in deciding the recipe, this function recommends them according to user’s height and weight.
+It uses BMI to measure whether a person is underweight, normal or overweight.
+For those who are underweight, this function will recommend the user with the dish with highest calories.
+For those who are normal, this function will recommend the user with the dish with median calories.
+For those who are overweight, this function will recommend the user with the dish with lowest calories.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app_key</strong> (<em>a string to input your application key</em>) – </p></li>
+<li><p><strong>app_id</strong> (<em>a string to input your application id</em>) – </p></li>
+<li><p><strong>q</strong> (<em>a string to input your ingredient</em><em> or </em><em>a recipe name</em>) – </p></li>
+<li><p><strong>height</strong> (<em>a float to indicate the height of the user in meters</em>) – </p></li>
+<li><p><strong>weight</strong> (<em>a float to indicate the weight of the user in kilograms</em>) – </p></li>
+<li><p><strong>to</strong> (<em>an integer to input the last result index of the recipes</em><em> (</em><em>default to 10</em><em>)</em>) – </p></li>
+<li><p><strong>ingr</strong> (<em>an integer to input the maximum number of ingredients that you want in your recipe</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>A dataframe that contains the recommended recipe name and its detailed information</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">recommend</span> <span class="o">=</span> <span class="n">recommend</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="s1">&#39;chicken&#39;</span><span class="p">,</span><span class="n">to</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">ingr</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">1.66</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mi">56</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recommend</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[&#39;Recommend Recipe&#39;, &#39;Detailed Information&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-edamam_recipe">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-edamam_recipe" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Edamam_Recipe</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../conduct.html">Code of Conduct</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Rui Lu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/source/edamam_recipe.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

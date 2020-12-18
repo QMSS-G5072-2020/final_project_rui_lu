@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>edamam_recipe.edamam_recipe &#8212; Edamam_Recipe  documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for edamam_recipe.edamam_recipe</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">app_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PRIVATE_API_KEY&quot;</span><span class="p">)</span>
+<span class="n">app_id</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PRIVATE_API_ID&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="obtain_recipe"><a class="viewcode-back" href="../../source/edamam_recipe.html#edamam_recipe.edamam_recipe.obtain_recipe">[docs]</a><span class="k">def</span> <span class="nf">obtain_recipe</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">ingr</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Using this obtain_recipe function to collect data from EDAMAM API.</span>
+<span class="sd">    EDAMAM API provides 1.7+million nutritionally analyzed recipes.</span>
+<span class="sd">    Check the status of the request, and tell the user if there exists an error.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    app_key: a string to input your application key</span>
+<span class="sd">    app_id: a string to input your application id</span>
+<span class="sd">    q: a string to input your ingredient or a recipe name</span>
+<span class="sd">    to: an integer to input the last result index of the recipes (default to 10)</span>
+<span class="sd">    ingr: an integer to input the maximum number of ingredients that you want in your recipe</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    A json format of data collected from API</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; obtain_recipe(app_key, app_id, q = &#39;chicken&#39;, to = 10, ingr = 10)</span>
+<span class="sd">    &lt;json&gt;</span>
+<span class="sd">        It contains json format data, and the following is the first several rows of it.</span>
+<span class="sd">    {&#39;q&#39;: &#39;chicken&#39;,</span>
+<span class="sd">     &#39;from&#39;: 0,</span>
+<span class="sd">     &#39;to&#39;: 10,</span>
+<span class="sd">     &#39;more&#39;: True,</span>
+<span class="sd">     &#39;count&#39;: 54176,</span>
+<span class="sd">     &#39;hits&#39;: [{&#39;recipe&#39;: {&#39;uri&#39;: &#39;http://www.edamam.com/ontologies/edamam.owl#recipe_b79327d05b8e5b838ad6cfd9576b30b6&#39;,</span>
+<span class="sd">     ...}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;https://api.edamam.com/search?app_key=</span><span class="si">{</span><span class="n">app_key</span><span class="si">}</span><span class="s2">&amp;app_id=</span><span class="si">{</span><span class="n">app_id</span><span class="si">}</span><span class="s2">&amp;q=</span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">&amp;to=</span><span class="si">{</span><span class="n">to</span><span class="si">}</span><span class="s2">&amp;ingr=</span><span class="si">{</span><span class="n">ingr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">HTTPError</span> <span class="k">as</span> <span class="n">http_err</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;HTTP error occurred: </span><span class="si">{</span><span class="n">http_err</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Other error occurred: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">raw_recipe</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">raw_recipe</span></div>
+
+
+<div class="viewcode-block" id="find_recipe"><a class="viewcode-back" href="../../source/edamam_recipe.html#edamam_recipe.edamam_recipe.find_recipe">[docs]</a><span class="k">def</span> <span class="nf">find_recipe</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">ingr</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Using this find_recipe function to provide the user with the dishes that can be made with their ingredient.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    app_key: a string to input your application key</span>
+<span class="sd">    app_id: a string to input your application id</span>
+<span class="sd">    q: a string to input your ingredient or a recipe name</span>
+<span class="sd">    to: an integer to input the last result index of the recipes (default to 10)</span>
+<span class="sd">    ingr: an integer to input the maximum number of ingredients that you want in your recipe</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    A dataframe that contains the recipe name, its image, and the website that presents its detailed information.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; find_recipe = find_recipe(app_key, app_id, q = &#39;chicken&#39;, to = 10, ingr = 10)</span>
+<span class="sd">    &gt;&gt;&gt; find_recipe.columns.values.tolist()</span>
+<span class="sd">    [&#39;Recipe Name&#39;, &#39;Image&#39;, &#39;Detailed Infomation&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">raw_recipe</span> <span class="o">=</span> <span class="n">obtain_recipe</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">ingr</span><span class="p">)</span>
+    <span class="c1"># get the whole desciption of the recipes</span>
+    <span class="n">hits</span> <span class="o">=</span> <span class="n">raw_recipe</span><span class="p">[</span><span class="s1">&#39;hits&#39;</span><span class="p">]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">hits</span><span class="p">:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hit</span><span class="p">[</span><span class="s1">&#39;recipe&#39;</span><span class="p">])</span>
+
+    <span class="c1"># get all the recipe name, their images and detailed information</span>
+    <span class="n">recipe_name</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">recipe_image</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">detail_info</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)):</span>
+        <span class="n">recipe_name</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+        <span class="n">recipe_image</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;image&#39;</span><span class="p">])</span>
+        <span class="n">detail_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;shareAs&#39;</span><span class="p">])</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="c1"># turn the three lists into a dataframe with Recipe Name, Image, Detailed Information as columns</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;max_colwidth&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="n">output_recipe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Recipe Name&#39;</span><span class="p">:</span> <span class="n">recipe_name</span><span class="p">,</span>
+                                  <span class="s1">&#39;Image&#39;</span><span class="p">:</span> <span class="n">recipe_image</span><span class="p">,</span>
+                                  <span class="s1">&#39;Detailed Infomation&#39;</span><span class="p">:</span> <span class="n">detail_info</span><span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">output_recipe</span></div>
+
+
+<div class="viewcode-block" id="ingredient"><a class="viewcode-back" href="../../source/edamam_recipe.html#edamam_recipe.edamam_recipe.ingredient">[docs]</a><span class="k">def</span> <span class="nf">ingredient</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">ingr</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Using this ingredient function to provide the user with the ingredients they need to make a dish.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    app_key: a string to input your application key</span>
+<span class="sd">    app_id: a string to input your application id</span>
+<span class="sd">    q: a string to input your ingredient or a recipe name</span>
+<span class="sd">    to: an integer to input the last result index of the recipes (default to 10)</span>
+<span class="sd">    ingr: an integer to input the maximum number of ingredients that you want in your recipe</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    A dataframe that contains the ingredients in text, their weights, and their images.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; ingredient = ingredient(app_key, app_id, q = &#39;chicken&#39;, to = 10, ingr = 10)</span>
+<span class="sd">    &gt;&gt;&gt; ingredient.columns.values.tolist()</span>
+<span class="sd">    [&#39;text&#39;, &#39;weight&#39;, &#39;image&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">raw_recipe</span> <span class="o">=</span> <span class="n">obtain_recipe</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">ingr</span><span class="p">)</span>
+    <span class="c1"># there may be several recipes for one recipe name, so we choose the first one here</span>
+    <span class="n">expected_ingredient</span> <span class="o">=</span> <span class="n">raw_recipe</span><span class="p">[</span><span class="s1">&#39;hits&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;recipe&#39;</span><span class="p">][</span><span class="s1">&#39;ingredients&#39;</span><span class="p">]</span>
+
+    <span class="n">text</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">ingredients</span> <span class="ow">in</span> <span class="n">expected_ingredient</span><span class="p">:</span>
+        <span class="n">text</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ingredients</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">])</span>
+        <span class="n">weight</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ingredients</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">])</span>
+        <span class="n">image</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ingredients</span><span class="p">[</span><span class="s1">&#39;image&#39;</span><span class="p">])</span>
+
+    <span class="n">ingredients</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span>
+                                <span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="n">weight</span><span class="p">,</span>
+                                <span class="s1">&#39;image&#39;</span><span class="p">:</span> <span class="n">image</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">ingredients</span></div>
+
+<div class="viewcode-block" id="recipe_labels"><a class="viewcode-back" href="../../source/edamam_recipe.html#edamam_recipe.edamam_recipe.recipe_labels">[docs]</a><span class="k">def</span> <span class="nf">recipe_labels</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">ingr</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">diet_label</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">health_label</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">caution</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Using this recipe_labels function to provide the user with the label of recipe that they are interested in.</span>
+<span class="sd">    The user can choose among the diet labe, the health label and the caution.</span>
+<span class="sd">    If they don&#39;t want to a certain label, they can input False to that parameter.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    app_key: a string to input your application key</span>
+<span class="sd">    app_id: a string to input your application id</span>
+<span class="sd">    q: a string to input your recipe name</span>
+<span class="sd">    to: an integer to input the last result index of the recipes (default to 10)</span>
+<span class="sd">    ingr: an integer to input the maximum number of ingredients that you want in your recipe</span>
+<span class="sd">    diet_label: a boolean to indicate whether the user wants to know this lable.</span>
+<span class="sd">    health_label: a boolean to indicate whether the user wants to know this lable.</span>
+<span class="sd">    caution: a boolean to indicate whether the user wants to know this lable.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    A list that contains the labels that the user want to know.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; recipe_labels(app_key, app_id, q = &#39;Chicken Vesuvio&#39;, to = 10, ingr = 10, diet_label = True, health_label = True, caution = True)</span>
+<span class="sd">    [&#39;Low-Carb&#39;, &#39;Peanut-Free&#39;, &#39;Tree-Nut-Free&#39;, &#39;Sulfites&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; recipe_labels(app_key, app_id, q = &#39;Chicken Vesuvio&#39;, to = 10, ingr = 10, diet_label = False, health_label = True, caution = True)</span>
+<span class="sd">    [&#39;Peanut-Free&#39;, &#39;Tree-Nut-Free&#39;, &#39;Sulfites&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">raw_recipe</span> <span class="o">=</span> <span class="n">obtain_recipe</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">ingr</span><span class="p">)</span>
+    <span class="c1"># there may be several recipes for one recipe name, so we choose the first one here</span>
+    <span class="n">expected_recipe</span> <span class="o">=</span> <span class="n">raw_recipe</span><span class="p">[</span><span class="s1">&#39;hits&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;recipe&#39;</span><span class="p">]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">diet_label</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">diet_label</span> <span class="o">=</span> <span class="n">expected_recipe</span><span class="p">[</span><span class="s1">&#39;dietLabels&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">diet</span> <span class="ow">in</span> <span class="n">diet_label</span><span class="p">:</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diet</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">health_label</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">health_label</span> <span class="o">=</span> <span class="n">expected_recipe</span><span class="p">[</span><span class="s1">&#39;healthLabels&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">health</span> <span class="ow">in</span> <span class="n">health_label</span><span class="p">:</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">health</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">caution</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">cautions</span> <span class="o">=</span> <span class="n">expected_recipe</span><span class="p">[</span><span class="s1">&#39;cautions&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">caution</span> <span class="ow">in</span> <span class="n">cautions</span><span class="p">:</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">caution</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">labels</span></div>
+
+
+<div class="viewcode-block" id="nutrient"><a class="viewcode-back" href="../../source/edamam_recipe.html#edamam_recipe.edamam_recipe.nutrient">[docs]</a><span class="k">def</span> <span class="nf">nutrient</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">ingr</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Using this nutrient function to provide the user with the detailed nutrients in the dish that they want to make.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    app_key: a string to input your application key</span>
+<span class="sd">    app_id: a string to input your application id</span>
+<span class="sd">    q: a string to input a recipe name</span>
+<span class="sd">    to: an integer to input the last result index of the recipes (default to 10)</span>
+<span class="sd">    ingr: an integer to input the maximum number of ingredients that you want in your recipe</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    A dataframe that contains the category of the nutrient, its label, quantity and unit.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; nutrient = nutrient(app_key, app_id, q = &#39;Chicken Vesuvio&#39;, to = 10, ingr = 10)</span>
+<span class="sd">    &gt;&gt;&gt; nutrient.columns.values.tolist()</span>
+<span class="sd">    [&#39;Category&#39;, &#39;Label&#39;, &#39;Quantity&#39;, &#39;Unit&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">raw_recipe</span> <span class="o">=</span> <span class="n">obtain_recipe</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">ingr</span><span class="p">)</span>
+    <span class="c1"># there may be several recipes for one recipe name, so we choose the first one here</span>
+    <span class="n">expected_nutrient</span> <span class="o">=</span> <span class="n">raw_recipe</span><span class="p">[</span><span class="s1">&#39;hits&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;recipe&#39;</span><span class="p">][</span><span class="s1">&#39;totalNutrients&#39;</span><span class="p">]</span>
+
+    <span class="n">category</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">expected_nutrient</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">category</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="n">helping</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">expected_nutrient</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">helping</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="n">label</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">quantity</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">unit</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">helps</span> <span class="ow">in</span> <span class="n">helping</span><span class="p">:</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">helps</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+        <span class="n">quantity</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">helps</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">])</span>
+        <span class="n">unit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">helps</span><span class="p">[</span><span class="s1">&#39;unit&#39;</span><span class="p">])</span>
+    <span class="n">nutrient</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Category&#39;</span><span class="p">:</span> <span class="n">category</span><span class="p">,</span>
+                             <span class="s1">&#39;Label&#39;</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span>
+                             <span class="s1">&#39;Quantity&#39;</span><span class="p">:</span> <span class="n">quantity</span><span class="p">,</span>
+                             <span class="s1">&#39;Unit&#39;</span><span class="p">:</span> <span class="n">unit</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">nutrient</span></div>
+
+<div class="viewcode-block" id="my_favourite"><a class="viewcode-back" href="../../source/edamam_recipe.html#edamam_recipe.edamam_recipe.my_favourite">[docs]</a><span class="k">def</span> <span class="nf">my_favourite</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">ingr</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">save</span> <span class="o">=</span> <span class="p">[]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Using this my_favourite function to help the user to memorize which dishes they are interested in.</span>
+<span class="sd">    Next time, when the user has the same ingredient, they can find what they have interest in before.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    app_key: a string to input your application key</span>
+<span class="sd">    app_id: a string to input your application id</span>
+<span class="sd">    q: a string to input your ingredient or a recipe name</span>
+<span class="sd">    to: an integer to input the last result index of the recipes (default to 10)</span>
+<span class="sd">    ingr: an integer to input the maximum number of ingredients that you want in your recipe</span>
+<span class="sd">    save = a list to input the index of the recipe the user was interested in when they got use the find_recipe function</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    A list that contains the recipe name that the user has interest in.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; my_favourite(app_key, app_id, q = &#39;chicken&#39;, to = 10, ingr = 10, save = [2, 4])</span>
+<span class="sd">    [&#39;Chicken Feet Stock&#39;, &#39;Persian Chicken&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output_recipe</span> <span class="o">=</span> <span class="n">find_recipe</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">ingr</span><span class="p">)</span>
+    <span class="n">my_favourite</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">save</span><span class="p">:</span>
+        <span class="n">favourite_name</span> <span class="o">=</span> <span class="n">output_recipe</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">my_favourite</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">favourite_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">my_favourite</span></div>
+
+
+<div class="viewcode-block" id="recommend"><a class="viewcode-back" href="../../source/edamam_recipe.html#edamam_recipe.edamam_recipe.recommend">[docs]</a><span class="k">def</span> <span class="nf">recommend</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">ingr</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;&quot;</span>
+<span class="sd">    When user has a problem in deciding the recipe, this function recommends them according to user&#39;s height and weight.</span>
+<span class="sd">    It uses BMI to measure whether a person is underweight, normal or overweight.</span>
+<span class="sd">    For those who are underweight, this function will recommend the user with the dish with highest calories.</span>
+<span class="sd">    For those who are normal, this function will recommend the user with the dish with median calories.</span>
+<span class="sd">    For those who are overweight, this function will recommend the user with the dish with lowest calories.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    app_key: a string to input your application key</span>
+<span class="sd">    app_id: a string to input your application id</span>
+<span class="sd">    q: a string to input your ingredient or a recipe name</span>
+<span class="sd">    height: a float to indicate the height of the user in meters</span>
+<span class="sd">    weight: a float to indicate the weight of the user in kilograms</span>
+<span class="sd">    to: an integer to input the last result index of the recipes (default to 10)</span>
+<span class="sd">    ingr: an integer to input the maximum number of ingredients that you want in your recipe</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    A dataframe that contains the recommended recipe name and its detailed information</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; recommend = recommend(app_key, app_id, q = &#39;chicken&#39;,to = 10, ingr = 10, height = 1.66, weight = 56)</span>
+<span class="sd">    &gt;&gt;&gt; recommend.columns.values.tolist()</span>
+<span class="sd">    [&#39;Recommend Recipe&#39;, &#39;Detailed Information&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">raw_recipe</span> <span class="o">=</span> <span class="n">obtain_recipe</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">ingr</span><span class="p">)</span>
+    <span class="n">hits</span> <span class="o">=</span> <span class="n">raw_recipe</span><span class="p">[</span><span class="s1">&#39;hits&#39;</span><span class="p">]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">hits</span><span class="p">:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hit</span><span class="p">[</span><span class="s1">&#39;recipe&#39;</span><span class="p">])</span>
+
+    <span class="c1"># extract the calories of each dish</span>
+    <span class="n">calories</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)):</span>
+        <span class="n">calories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;calories&#39;</span><span class="p">])</span>
+
+    <span class="c1"># calculate the BMI to measure the whether a person is underweight, normal or overweight.</span>
+    <span class="n">BMI</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">/</span> <span class="p">(</span><span class="n">height</span> <span class="o">*</span> <span class="n">height</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">BMI</span> <span class="o">&lt;</span> <span class="mf">18.5</span><span class="p">:</span>  <span class="c1"># recommend recipe with highest calories for those who are underweight</span>
+        <span class="n">index_cal</span> <span class="o">=</span> <span class="n">calories</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">calories</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">BMI</span> <span class="o">&gt;</span> <span class="mf">24.5</span><span class="p">:</span>  <span class="c1"># recommend recipe with lowest calories for those who are overweight</span>
+        <span class="n">index_cal</span> <span class="o">=</span> <span class="n">calories</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">calories</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">BMI</span> <span class="o">&gt;=</span> <span class="mf">18.5</span> <span class="ow">and</span> <span class="n">BMI</span> <span class="o">&lt;=</span> <span class="mf">24.5</span><span class="p">):</span>  <span class="c1"># recommend recipe with median calories for those who are normal</span>
+        <span class="c1"># if the number of recipes is even number, delete the max calorie to get the median</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">calories</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">calories</span><span class="p">[</span><span class="n">calories</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">calories</span><span class="p">))]</span>
+        <span class="n">index_cal</span> <span class="o">=</span> <span class="n">calories</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">calories</span><span class="p">))</span>
+
+    <span class="n">recipe_name</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">index_cal</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
+    <span class="n">detailed_info</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">index_cal</span><span class="p">][</span><span class="s1">&#39;shareAs&#39;</span><span class="p">]</span>
+    <span class="n">recommend_recipe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Recommend Recipe&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">recipe_name</span><span class="p">],</span>
+                                     <span class="s1">&#39;Detailed information&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">detailed_info</span><span class="p">]})</span>
+    <span class="k">return</span> <span class="n">recommend_recipe</span></div>
+
+
+<div class="viewcode-block" id="party"><a class="viewcode-back" href="../../source/edamam_recipe.html#edamam_recipe.edamam_recipe.party">[docs]</a><span class="k">def</span> <span class="nf">party</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">num_of_people</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">ingr</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    When the user is going to hold a part, and need the recipe that can provide enough food for the guests.</span>
+<span class="sd">    This function can recommend the recipes that satisfy this need</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters </span>
+<span class="sd">    ----------</span>
+<span class="sd">    app_key: a string to input your application key</span>
+<span class="sd">    app_id: a string to input your application id</span>
+<span class="sd">    q: a string to input your ingredient or a recipe name</span>
+<span class="sd">    num_of_people: an integer to input the number of people that will come to the party</span>
+<span class="sd">    to: an integer to input the last result index of the recipes (default to 10)</span>
+<span class="sd">    ingr: an integer to input the maximum number of ingredients that you want in your recipe</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Returns a dataframe that contains the recipe name and its website address with detail information</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; party = party(app_key, app_id, q = &#39;chicken&#39;, num_of_people = 6, to = 10, ingr = 10)</span>
+<span class="sd">    &gt;&gt;&gt; party.columns.values.tolist()</span>
+<span class="sd">    [&#39;Party Recipe&#39;, &#39;Detailed information&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">raw_recipe</span> <span class="o">=</span> <span class="n">obtain_recipe</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">ingr</span><span class="p">)</span>
+    <span class="n">hits</span> <span class="o">=</span> <span class="n">raw_recipe</span><span class="p">[</span><span class="s1">&#39;hits&#39;</span><span class="p">]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">hits</span><span class="p">:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hit</span><span class="p">[</span><span class="s1">&#39;recipe&#39;</span><span class="p">])</span>
+
+    <span class="n">servings</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)):</span>
+        <span class="n">servings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;yield&#39;</span><span class="p">])</span>
+
+    <span class="n">index_serving</span> <span class="o">=</span> <span class="p">[</span><span class="n">servings</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">serving</span><span class="p">)</span> <span class="k">for</span> <span class="n">serving</span> <span class="ow">in</span> <span class="n">servings</span> <span class="k">if</span> <span class="n">serving</span> <span class="o">&gt;=</span> <span class="n">num_of_people</span><span class="p">]</span>
+
+    <span class="n">recipe_name</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">detailed_info</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">index_serving</span><span class="p">)):</span>
+        <span class="n">recipe_name</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+        <span class="n">detailed_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;shareAs&#39;</span><span class="p">])</span>
+
+    <span class="n">party_recipe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Party Recipe&#39;</span><span class="p">:</span> <span class="n">recipe_name</span><span class="p">,</span>
+                                 <span class="s1">&#39;Detailed information&#39;</span><span class="p">:</span> <span class="n">detailed_info</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">party_recipe</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Edamam_Recipe</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../conduct.html">Code of Conduct</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Rui Lu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
