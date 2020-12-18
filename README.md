@@ -12,7 +12,9 @@ $ pip install -i https://test.pypi.org/simple/ edamam_recipe
 
 ## Features
 
-- TODO
+- This is a package to enable users to use the EDAMAM Recipe API, which is a API that provides 1.7+ million nutritionally analyzed recipes with detailed macro and micronutrient data filter by calories, diets and allergens.
+
+You can find the its link here: https://developer.edamam.com/edamam-recipe-api
 
 ## Dependencies
 
@@ -20,7 +22,7 @@ $ pip install -i https://test.pypi.org/simple/ edamam_recipe
 
 ## Usage
 
-- TODO
+- Find the recipes you need :)
 
 ## Documentation
 
