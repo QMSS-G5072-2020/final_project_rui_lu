@@ -18,7 +18,15 @@ You can find the its link here: https://developer.edamam.com/edamam-recipe-api
 
 ## Dependencies
 
-- TODO
+- python = "^3.8"
+- pandas = "^1.1.5"
+- pytest = "^6.2.1"
+- pytest-cov = "^2.10.1"
+- codecov = "^2.1.11"
+- python-semantic-release = "^7.8.1"
+- flake8 = "^3.8.4"
+- sphinx = "^3.3.1"
+- sphinxcontrib-napoleon = "^0.7"
 
 ## Usage
 
